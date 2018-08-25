@@ -1,207 +1,132 @@
-body {
-	margin : 0px;
+button{
+	background: none;
+	border: none;
+	font:inherit;
+	color: inherit;
 }
+.body{color:white;}
+.sqr{height:30px;width:30px;line-height:30px;}
+.dis-f{display: flex;display:-moz-flex;display: -webkit-flex;}
+.f-wrap-w{flex-wrap: wrap;-webkit-flex-wrap: wrap;}
+.al-it-c{align-items: center;-webkit-align-items: center;}
+.al-it-e{align-items: end;-webkit-align-items: flex-end;}
+.al-it-st{align-items: stretch;-webkit-align-items: stretch;}
+.jus-c-c{justify-content: center;-webkit-justify-content: center;}
+.jus-c-sa{justify-content: space-around;-webkit-justify-content: space-around;}
+.jus-c-sb{justify-content: space-between;-webkit-justify-content: space-between;}
+.jus-c-se{justify-content: space-evenly;-webkit-justify-content: space-around;}
+.flex-d-c{flex-direction: column;-webkit-flex-direction: column;}
+.flex-d-rw{flex-direction: row-reverse;-webkit-flex-direction: row-reverse;}
+.flex-w-w{flex-wrap: wrap;-webkit-flex-wrap: wrap;}
+.transition{transition: all 0.3s}
+
+
+
+
+
+
 
 div, button, span {
-	position: absolute;
 }
-
+/*adad tooe dayere*/
 span:nth-child(1) {
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	font-family: arial;
-}
 
-#board {  
-	left: 45%;
-	top: 50%;
-	transform: translate(0, -50%);
-	width: 40%;    
-	padding-bottom: 40%;  
 }
-
+/*board adad*/
+#board {
+}
+/*dayere haye adad*/
 #board > div {
-	background-color: #ddd;  
-	width: 8%;  
-	padding-bottom: 8%;    
-	border-radius: 50%;
-	border: 3px solid #555; 
 }
-
-#board > div > span:nth-child(1) {  	 
-	font-size: 1.6vw; 
-	color: #777; 
+/*adad too dayere*/
+#board > div > span:nth-child(1) {
 }
-
+/*dayere k range qermezo sabz mishe too dayere adad*/
 .pawn {  
-	height: 100%;
-	width: 100%;
-	border-radius: 50%;
-	display: none;
-	z-index: 1;
-}
 
+}
+/*baraye pawn*/
 .player_1 {
 	display: block;
 	background-color: #2ECC71;
 }
-
+/*baraye pawn*/
 .player_2 {
 	display: block;
 	background-color: #E74C3C;
 }
-
+/*khane shoro qermezo sabz*/
 #start_player_1, #start_player_2 {
-	width: 15%; 
-	padding-bottom: 15%;
-	border-radius: 50%;
-	border: 3px solid #555; 
-	top: 10%;  
-	transform: translate(-50%, 0);
-	color: #777;
-	font-size: 3vw;  
-
 }
-
 #start_player_1 {   
-	left: 40%; 
+	left: 40%;
 }
-
 #start_player_1[class='filled'] {    
 	background-color: #2ECC71;
 }
-
 #start_player_1[class='empty'] {
 	background-color: #ABEBC6;
 }
-
 #start_player_2 { 
 	left: 60%;
 }
-
 #start_player_2[class='filled'] {
 	background-color: #E74C3C;
 }
-
 #start_player_2[class='empty'] {
 	background-color: #F5B7B1;
 } 
-
-#panel {  
-	width: 40%;
-	padding-bottom: 40%; 
-	top: 50%;
-	transform: translate(0, -50%);
+/*panel dokme ha*/
+#panel {
 }
-
-
-button { 
-	width: 10%;
-	height: 10%;
-	transform: translate(-50%, -50%);
+/*style dokme ha*/
+button {
 }
-
+/*style dokme tas andaz*/
 #roll {
-	top: 42%;
-	left: 50%;
-	background-color: #666;
-	border: 2px solid #555;
-	width: 15%;
-	font-size: 1.5vw;
-	color: #fff;   
 }
-
-
+/*natije tas*/
 .dice {
-	background-color: #89a;
-	border: 2px solid #555;
-	top: 42%;
-	width: 15%;
-	height: 15%;
-	transform: translate(-50%, -50%);
 }
-
+/*adad dakhele natije tas*/
 .dice > span {
-	font-size: 2vw;
-	color: #fff;  
 }
-
+/*hover dokme tas andaz*/
 #roll:hover {
-	background-color: #555;
 }
-
-#first_die { 
-	left: 35%; 
+#first_die {
 }
-
 #second_die {
-	left: 65%;
 }
-
+/*amal gar ha*/
 .operator {
-	background-color: #9ab;
-	border: 3px solid #567;
-	transform: translate(-50%, -50%);
-	font-size: 2vw;
-	color: white; 
 }
-
 .operator:focus, #roll:focus {
-	outline: 0;
 }
-
 .operator:hover {
-	background-color: #567;
 }
-
 #sum {
-	left: 44%;
-	top: 62%;
-	border-top-left-radius: 100%;
 }
-
 #subtract {
-	left: 56%;
-	top: 62%;
-	border-top-right-radius: 100%;
 }
-
 #multiply {
-	left: 44%;
-	top: 74%;
-	border-bottom-left-radius: 100%;
 }
-
 #divide {
-	left: 56%;
-	top: 74%;
-	border-bottom-right-radius: 100%;
 }
-
-#msg { 
-	left: 50%;
-	top: 83%;
-	transform: translate(-50%, 0);
-	width: 50%;
-	height: 15%;
+/*payame barande*/
+#msg {
 }
-
-#msg > span { 
-	font-size: 2vw;
-	color: #fff; 
+#msg > span {
 }
-
+/*style payam*/
 .no_winner { 
 	background-color: #ccc;
 	border: 3px solid #bbb;
 }
-
 .winner_msg_1 {
 	background-color: #2ECC71;
 	border: 3px solid #555;
 }
-
 .winner_msg_2 {
 	background-color: #E74C3C;
 	border: 3px solid #555;

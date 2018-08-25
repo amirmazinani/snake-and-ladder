@@ -7,18 +7,26 @@
 		<link rel="stylesheet" type="text/css" href="/styles/main.css" />
 	</head>
 	<body>   
-		<div id="panel">
-			<div id="start_player_1" class="filled"><span></span></div>
-			<div id="start_player_2" class="filled"><span></span></div>
-			<div id="first_die" class="dice"><span>?</span></div>
-			<div id="second_die" class="dice"><span>?</span></div> 
-			<button id="roll">Roll</button>
-			<button id="sum" class="operator">+</button> 
-			<button id="subtract" class="operator">-</button> 
-			<button id="multiply" class="operator">*</button>
-			<button id="divide" class="operator">/</button>
+		<div id="panel" class="-pos-f -bottom-0 -w-11 -b-c-black -c-white dis-f al-it-c jus-c-sb">
 			<div id="msg" class="no_winner"><span>Winner?</span></div>
+			<div class="dis-f">
+				<div id="start_player_1" class="filled"><span></span></div>
+				<div id="start_player_2" class="filled"><span></span></div>
+			</div>
+			<div class="dis-f">
+				<div id="first_die" class="dice"><span>?</span></div>
+				<button id="roll">Roll</button>
+				<div id="second_die" class="dice"><span>?</span></div>
+			</div>
+			<div>
+				<button id="sum" class="operator">+</button>
+				<button id="subtract" class="operator">-</button>
+				<button id="multiply" class="operator">*</button>
+				<button id="divide" class="operator">/</button>
+			</div>
 		</div>
+
+
 		<div id="board"></div>
 
 
