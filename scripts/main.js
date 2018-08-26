@@ -1,7 +1,5 @@
 $(document).ready(function () {
 
-
-
     function roll_dice() {
         roll_single_die("first_die");
         roll_single_die("second_die");
@@ -17,21 +15,17 @@ $(document).ready(function () {
         elem.text(next);
     }
 
-
-
-
     for (var i = 1; i <= 10; i++) {
 		for (var j = 1; j <= 10; j++){
-			$('#board').append('<div style="left: ' + (j * 10 - 10 + 1) + '%; top: ' + (i * 10 - 10 + 1) + 
-				'%;"><span>' + (10 * i - 10 + j) + '</span><span class="pawn"></span></div>');
+			$('#board').append('<div class="-pos-r sqr b-gray -t-al-c"><span>' + (10 * i - 10 + j) + '</span><span class="pawn -pos-a -top-0 -left-0 -w-11 h-100d"></span></div>');
 		} 
 	}
 
 
 
 
-	let user1 = {'name' : 1,'roll' : true,'operator' : false};
-	let user2 = {'name' : 2,'roll' : false,'operator' : false};
+	let user1 = {'name' : 1,'roll' : true,'operator' : false,'started':false};
+	let user2 = {'name' : 2,'roll' : false,'operator' : false,'started':false};
 
     function prime(num) {
         var number = Number(num);
@@ -52,11 +46,25 @@ $(document).ready(function () {
     $('#roll').on('click',function () {
         if(user1.name === 1 && user1.roll === true && user1.operator === false){
             roll_dice();
+            if(user1.started === false){
+                user1.started = true;
+                $('#msg > span').addClass('-dis-n');
+                $('#msg > i').removeClass('-dis-n');
+            }
+            $('#roll').addClass('-dis-n');
+            $('.operator').removeClass('-dis-n');
             user1.roll = false;
             user1.operator = true;
         }
         if(user2.name === 2 && user2.roll === true && user2.operator === false){
             roll_dice();
+            if(user2.started === false){
+                user2.started = true;
+                $('#msg > span').addClass('-dis-n');
+                $('#msg > i').removeClass('-dis-n');
+            }
+            $('#roll').addClass('-dis-n');
+            $('.operator').removeClass('-dis-n');
             user2.roll = false;
             user2.operator = true;
         }
@@ -108,6 +116,11 @@ $(document).ready(function () {
                 $('#first_die.dice > span').text('?');
                 $('#second_die.dice > span').text('?');
 			}
+
+            $('#roll').removeClass('-dis-n');
+            $('.operator').addClass('-dis-n');
+            $('#msg > i').toggleClass('-fnt-icon-left -fnt-icon-right');
+
             user1.roll = false;
             user1.operator = false;
             user2.roll = true;
@@ -158,12 +171,16 @@ $(document).ready(function () {
                 $('#first_die.dice > span').text('?');
                 $('#second_die.dice > span').text('?');
             }
+
+            $('#roll').removeClass('-dis-n');
+            $('.operator').addClass('-dis-n');
+            $('#msg > i').toggleClass('-fnt-icon-left -fnt-icon-right');
+
             user2.roll = false;
             user2.operator = false;
             user1.roll = true;
             user1.operator = false;
         }
-
 
         //find winner
         let winner = $('#board > div:nth-child(100) > .pawn');
@@ -172,22 +189,24 @@ $(document).ready(function () {
             user1.operator = false;
             user2.roll = false;
             user2.operator = false;
+            user2.started = false;
             $('#msg').removeClass('no_winner').addClass('winner_msg_1');
-            $('#msg > span').text('Congratulations!');
+            $('#msg > i').addClass('-dis-n');
+            $('#msg > span').removeClass('-dis-n').text('blue win!');
+            $('#start_player_1').removeClass('empty').addClass('filled');
         }
         if(winner.hasClass('player_2')){
             user1.roll = false;
             user1.operator = false;
             user2.roll = false;
             user2.operator = false;
+            user2.started = false;
             $('#msg').removeClass('no_winner').addClass('winner_msg_2');
-            $('#msg > span').text('Congratulations!');
+            $('#msg > i').addClass('-dis-n');
+            $('#msg > span').removeClass('-dis-n').text('red win!');
+            $('#start_player_2').removeClass('empty').addClass('filled');
         }
     });
-
-
-
-
 
 
 });

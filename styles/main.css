@@ -4,8 +4,25 @@ button{
 	font:inherit;
 	color: inherit;
 }
-.body{color:white;}
-.sqr{height:30px;width:30px;line-height:30px;}
+:root{
+	--dark-gray:#212121;
+	--gray:#303030;
+	--light-gray:#424242;
+	--blue:#3e50b4;
+	--red:#ff3f80;
+}
+.b-dark-gray{background: var(--dark-gray)}
+.b-gray{background: var(--gray)}
+.b-light-gray{background: var(--light-gray)}
+.b-light-gray-hover:hover{background: var(--light-gray)}
+.c-blue{color: var(--blue)}
+.b-blue{background: var(--blue)}
+.c-red{color: var(--red)}
+.b-red{background: var(--red)}
+.sqr{height:50px;width:50px;line-height:50px;}
+.li-h-50px{line-height: 50px}
+.w-200px{width: 200px;}
+.h-100d{height: 100%;}
 .dis-f{display: flex;display:-moz-flex;display: -webkit-flex;}
 .f-wrap-w{flex-wrap: wrap;-webkit-flex-wrap: wrap;}
 .al-it-c{align-items: center;-webkit-align-items: center;}
@@ -18,117 +35,60 @@ button{
 .flex-d-c{flex-direction: column;-webkit-flex-direction: column;}
 .flex-d-rw{flex-direction: row-reverse;-webkit-flex-direction: row-reverse;}
 .flex-w-w{flex-wrap: wrap;-webkit-flex-wrap: wrap;}
+.flex-sh-0{flex-shrink: 0}
 .transition{transition: all 0.3s}
+.z-100{z-index: 100}
 
-
-
-
-
-
-
-div, button, span {
-}
-/*adad tooe dayere*/
-span:nth-child(1) {
-
-}
-/*board adad*/
 #board {
+	margin-top: 50px;
+	margin-bottom: 60px;
+	display: grid;
+	grid-template-columns: repeat(Auto-fit,minmax(0,50px));
+	grid-template-rows: repeat(Auto-fit,minmax(0,50px));
+	justify-content: center;
+	grid-gap: 10px;
 }
-/*dayere haye adad*/
-#board > div {
+#board > div:last-of-type{
+	box-sizing: border-box;
+	border-bottom: 3px solid #2ECC71;
 }
-/*adad too dayere*/
-#board > div > span:nth-child(1) {
-}
-/*dayere k range qermezo sabz mishe too dayere adad*/
-.pawn {  
-
-}
-/*baraye pawn*/
 .player_1 {
 	display: block;
-	background-color: #2ECC71;
+	background-color: var(--blue);
 }
-/*baraye pawn*/
 .player_2 {
 	display: block;
-	background-color: #E74C3C;
+	background-color: var(--red);
 }
-/*khane shoro qermezo sabz*/
-#start_player_1, #start_player_2 {
+#start_player_1.filled {
+	background-color: var(--blue);
 }
-#start_player_1 {   
-	left: 40%;
+#start_player_1.empty {
+	background-color: #7784ca;
 }
-#start_player_1[class='filled'] {    
-	background-color: #2ECC71;
+#start_player_2.filled {
+	background-color: var(--red);
 }
-#start_player_1[class='empty'] {
-	background-color: #ABEBC6;
-}
-#start_player_2 { 
-	left: 60%;
-}
-#start_player_2[class='filled'] {
-	background-color: #E74C3C;
-}
-#start_player_2[class='empty'] {
-	background-color: #F5B7B1;
-} 
-/*panel dokme ha*/
-#panel {
-}
-/*style dokme ha*/
-button {
-}
-/*style dokme tas andaz*/
-#roll {
-}
-/*natije tas*/
-.dice {
-}
-/*adad dakhele natije tas*/
-.dice > span {
-}
-/*hover dokme tas andaz*/
-#roll:hover {
-}
-#first_die {
-}
-#second_die {
-}
-/*amal gar ha*/
-.operator {
-}
-.operator:focus, #roll:focus {
-}
-.operator:hover {
-}
-#sum {
-}
-#subtract {
-}
-#multiply {
-}
-#divide {
-}
-/*payame barande*/
-#msg {
-}
-#msg > span {
-}
-/*style payam*/
-.no_winner { 
-	background-color: #ccc;
-	border: 3px solid #bbb;
+#start_player_2.empty {
+	background-color: #ff78a6;
 }
 .winner_msg_1 {
-	background-color: #2ECC71;
-	border: 3px solid #555;
+	background-color: var(--blue);
 }
 .winner_msg_2 {
-	background-color: #E74C3C;
-	border: 3px solid #555;
+	background-color: var(--red);
 }
 
+
+@media all and (max-width: 649px){
+	#panel{
+		flex-direction: column;
+	}
+	#panel > div > .w-200px{
+		width: 100%;
+	}
+	#board {
+		margin-top: 10px;
+		margin-bottom: 120px;
+	}
+}
