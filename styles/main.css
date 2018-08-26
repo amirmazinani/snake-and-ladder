@@ -1,3 +1,25 @@
+@font-face {
+	font-family: "behdad";
+	src:
+			url("/fonts/behdad/font.otf?#") format("otf"),
+			url("/fonts/behdad/font.woff") format("woff"),
+			url("/fonts/behdad/font.woff2") format("woff2"),
+			url("/fonts/behdad/font.ttf") format("truetype");
+}
+@font-face {
+	font-family: 'lalezar';
+	src:  url('/fonts/lalezar/font.woff2') format('woff2');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: "montserrat-m";
+	src: url("/fonts/montserrat/Montserrat-MediumItalic.ttf") format("truetype");
+}
+@font-face {
+	font-family: "montserrat-b";
+	src: url("/fonts/montserrat/Montserrat-BlackItalic.ttf") format("truetype");
+}
 button{
 	background: none;
 	border: none;
@@ -10,7 +32,13 @@ button{
 	--light-gray:#424242;
 	--blue:#3e50b4;
 	--red:#ff3f80;
+	--green:#2ECC71;
 }
+body{font-family: sans-serif}
+.fnt-montserrat-m{font-family: 'montserrat-m' , sans-serif;}
+.fnt-montserrat-b{font-family: 'montserrat-b' , sans-serif;}
+.fnt-behdad{font-family: 'behdad' , sans-serif;}
+.fnt-lalezar{font-family: 'lalezar' , sans-serif;}
 .b-dark-gray{background: var(--dark-gray)}
 .b-gray{background: var(--gray)}
 .b-light-gray{background: var(--light-gray)}
@@ -19,6 +47,7 @@ button{
 .b-blue{background: var(--blue)}
 .c-red{color: var(--red)}
 .b-red{background: var(--red)}
+.b-green-hover:hover{background: var(--green)}
 .sqr{height:50px;width:50px;line-height:50px;}
 .li-h-50px{line-height: 50px}
 .w-200px{width: 200px;}
@@ -38,6 +67,8 @@ button{
 .flex-sh-0{flex-shrink: 0}
 .transition{transition: all 0.3s}
 .z-100{z-index: 100}
+.z-101{z-index: 101}
+.active{border-bottom: 3px solid var(--green)}
 
 #board {
 	max-width: 649px;
@@ -53,7 +84,7 @@ button{
 }
 #board > div:last-of-type{
 	box-sizing: border-box;
-	border-bottom: 3px solid #2ECC71;
+	border-bottom: 3px solid var(--green);
 }
 .player_1 {
 	display: block;

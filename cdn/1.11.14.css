@@ -1,9 +1,4 @@
 @font-face {
-    font-family: "icon";
-    src: url("/fonts/icon/font.eot?#iefix") format("embedded-opentype"), url("/fonts/icon/font.woff") format("woff"), url("/fonts/icon/font.ttf") format("truetype"), url("/fonts/icon/font.svg#iconsregular") format("svg");
-}
-
-@font-face {
     font-family: "fontello";
     src: url('/fonts/fontello/font.eot#iefix') format('embedded-opentype'), url('/fonts/fontello/font.woff') format('woff'), url('/fonts/fontello/font.ttf') format('truetype'), url('/fonts/fontello/font.svg#fontello') format('svg');
 }
