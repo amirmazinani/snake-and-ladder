@@ -44,10 +44,20 @@ $(document).ready(function () {
 	}
 
 
+    //class User
+	function User(name='no name',number=1,roll=true,operator=false,started=false,position=0,winner=false) {
+        this.name = name;
+        this.number = number;
+        this.roll = roll;
+        this.operator = operator;
+        this.started = started;
+        this.position = position;
+        this.winner = winner;
+    }
+    let user1 = new User(1,1,true);
+    let user2 = new User(2,2,false);
 
 
-	let user1 = {'name' : 1,'roll' : true,'operator' : false,'started':false};
-	let user2 = {'name' : 2,'roll' : false,'operator' : false,'started':false};
 
     function prime(num) {
         var number = Number(num);
