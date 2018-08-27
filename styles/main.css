@@ -52,6 +52,7 @@ body{font-family: sans-serif}
 .li-h-50px{line-height: 50px}
 .w-200px{width: 200px;}
 .h-100d{height: 100%;}
+.mh-100{min-height: 100vh}
 .dis-f{display: flex;display:-moz-flex;display: -webkit-flex;}
 .f-wrap-w{flex-wrap: wrap;-webkit-flex-wrap: wrap;}
 .al-it-c{align-items: center;-webkit-align-items: center;}
@@ -69,6 +70,8 @@ body{font-family: sans-serif}
 .z-100{z-index: 100}
 .z-101{z-index: 101}
 .active{border-bottom: 3px solid var(--green)}
+.top-100{top: 100%;}
+.ovf-y-a{overflow-y: auto}
 
 #board {
 	max-width: 649px;

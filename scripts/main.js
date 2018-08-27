@@ -1,10 +1,31 @@
 $(document).ready(function () {
 
+    //view
+    $('#description > main > nav > ul > li').on('click',function () {
+        let lang = $(this).data('language');
+        $('#description > main > nav > ul > li').removeClass('active');
+        $(this).addClass('active');
+        $('#description > main > div > div').addClass('-dis-n');
+        $('#description > main > div > div.'+lang).removeClass('-dis-n');
+    });
+    $('.information').on('click',function () {
+        $('#description').toggleClass('top-100');
+
+        if($('#description').hasClass('top-100')){
+            $('body').removeClass('-ovf-h');
+        }else{
+            $('body').addClass('-ovf-h');
+        }
+
+    });
+
+
+
+    //roll
     function roll_dice() {
         roll_single_die("first_die");
         roll_single_die("second_die");
     }
-
     function roll_single_die(id){
         elem = $("#" + id + " > span");
         current = elem.text();
@@ -15,6 +36,7 @@ $(document).ready(function () {
         elem.text(next);
     }
 
+    //set 100 houses
     for (var i = 1; i <= 10; i++) {
 		for (var j = 1; j <= 10; j++){
 			$('#board').append('<div class="-pos-r sqr b-gray -t-al-c"><span>' + (10 * i - 10 + j) + '</span><span class="pawn -pos-a -top-0 -left-0 -w-11 h-100d"></span></div>');
