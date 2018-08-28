@@ -56,8 +56,6 @@ $(document).ready(function () {
         this.step = step;
         this.winner = winner;
     }
-    let user1 = new User(1,1,true);
-    let user2 = new User(2,2,false);
 
     let roll_die = {first_die:null,second_die:null};
     let user = new User(1,1,true);
@@ -82,63 +80,58 @@ $(document).ready(function () {
     }
 
     $('#roll').on('click',function () {
-        if(user1.name === 1 && user1.roll === true && user1.operator === false){
+        if(user.name === 1 && user.roll === true && user.operator === false){
             roll_dice();
-            if(user1.started === false){
-                user1.started = true;
+            if(user.started === false){
+                user.started = true;
                 $('#msg > span').addClass('-dis-n');
                 $('#msg > i').removeClass('-dis-n');
             }
             $('#roll').addClass('-dis-n');
             $('.operator').removeClass('-dis-n');
-            user1.roll = false;
-            user1.operator = true;
+            user.roll = false;
+            user.operator = true;
         }
     });
 
     $('.operator').on('click',function () {
-        if(user1.name === 1 && user1.roll === false && user1.operator === true){
-            let first_die = Number($('#first_die.dice > span').text());
-            let second_die = Number($('#second_die.dice > span').text());
-            // let player1_pos = Number($('#start_player_1 > span').text());
-            // let player2_pos = Number($('#start_player_2 > span').text());
-            let player1_pos = ($('.player_1').length > 0) ? $('.player_1').closest('div').index()+1 : 0;
-            let player2_pos = ($('.player_2').length > 0) ? $('.player_2').closest('div').index()+1 : 0;
+        if(user.name === 1 && user.roll === false && user.operator === true){
             let result = 0;
 
 
             if($(this).is("#sum")){
-                result = first_die + second_die;
+                result = roll_die.first_die + roll_die.second_die;
             }else if($(this).is("#subtract")){
-                result = first_die - second_die;
+                result = roll_die.first_die - roll_die.second_die;
             }else if($(this).is("#multiply")){
-                result = first_die * second_die;
+                result = roll_die.first_die * roll_die.second_die;
             }else if($(this).is("#divide")){
-                result = first_die / second_die;
-                if(second_die === 0)result=1000;
+                result = roll_die.first_die / roll_die.second_die;
+                if(roll_die.second_die === 0)result=1000;
             }
 
             result = Number(Math.floor(result));
-            player1_pos = result + player1_pos;
+            user.position = result + user.position;
+            if(user.position===100)user.winner=true;
 
-            if(result === 1000 || player1_pos <= 0 || player1_pos >= 101 || prime(player1_pos)){
+            if(result === 1000 || user.position <= 0 || user.position >= 101 || prime(user.position)){
                 $('#start_player_1').removeClass('empty').addClass('filled').find('span').text('');
                 $('#first_die.dice > span').text('?');
                 $('#second_die.dice > span').text('?');
                 $('.player_1').removeClass('player_1');
-            }else if(player1_pos === player2_pos){
+            }else if(user.position === computer.position){
                 $('#start_player_2 > span').text('');
                 $('#start_player_2').removeClass('empty').addClass('filled').find('span').text('');
                 $('.player_2').removeClass('player_2');
                 $('#first_die.dice > span').text('?');
                 $('#second_die.dice > span').text('?');
                 $('.player_1').removeClass('player_1');
-                $('#board > div:nth-child('+player1_pos+') > .pawn').addClass('player_1');
-                $('#start_player_1').removeClass('filled').addClass('empty').find('span').text(player1_pos);
-			}else if((player1_pos > 0 || player1_pos < 101) && !prime(player1_pos)){
+                $('#board > div:nth-child('+user.position+') > .pawn').addClass('player_1');
+                $('#start_player_1').removeClass('filled').addClass('empty').find('span').text(user.position);
+			}else if((user.position > 0 || user.position < 101) && !prime(user.position)){
                 $('.player_1').removeClass('player_1');
-                $('#board > div:nth-child('+player1_pos+') > .pawn').addClass('player_1');
-                $('#start_player_1').removeClass('filled').addClass('empty').find('span').text(player1_pos);
+                $('#board > div:nth-child('+user.position+') > .pawn').addClass('player_1');
+                $('#start_player_1').removeClass('filled').addClass('empty').find('span').text(user.position);
                 $('#first_die.dice > span').text('?');
                 $('#second_die.dice > span').text('?');
 			}
@@ -147,10 +140,13 @@ $(document).ready(function () {
             $('.operator').addClass('-dis-n');
             $('#msg > i').toggleClass('-fnt-icon-left -fnt-icon-right');
 
-            user1.roll = false;
-            user1.operator = false;
-            user2.roll = true;
-            user2.operator = false;
+            user.roll = false;
+            user.operator = false;
+            user.step++;
+            computer.roll = true;
+            computer.operator = false;
+
+            console.log(user);
 		}
 
 
@@ -158,24 +154,23 @@ $(document).ready(function () {
 
 
         //find winner
-        let winner = $('#board > div:nth-child(100) > .pawn');
-        if(winner.hasClass('player_1')){
-            user1.roll = false;
-            user1.operator = false;
-            user2.roll = false;
-            user2.operator = false;
-            user2.started = false;
+        if(user.winner===true){
+            user.roll = false;
+            user.operator = false;
+            computer.roll = false;
+            computer.operator = false;
+            computer.started = false;
             $('#msg').removeClass('no_winner').addClass('winner_msg_1');
             $('#msg > i').addClass('-dis-n');
             $('#msg > span').removeClass('-dis-n').text('blue win!');
             $('#start_player_1').removeClass('empty').addClass('filled');
         }
-        if(winner.hasClass('player_2')){
-            user1.roll = false;
-            user1.operator = false;
-            user2.roll = false;
-            user2.operator = false;
-            user2.started = false;
+        if(computer.winner===true){
+            user.roll = false;
+            user.operator = false;
+            computer.roll = false;
+            computer.operator = false;
+            computer.started = false;
             $('#msg').removeClass('no_winner').addClass('winner_msg_2');
             $('#msg > i').addClass('-dis-n');
             $('#msg > span').removeClass('-dis-n').text('red win!');
