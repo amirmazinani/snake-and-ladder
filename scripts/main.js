@@ -19,8 +19,6 @@ $(document).ready(function () {
 
     });
 
-
-
     //roll
     function roll_dice() {
         roll_single_die("first_die");
@@ -44,25 +42,7 @@ $(document).ready(function () {
 		} 
 	}
 
-
-    //class User
-	function User(name='no name',number=1,roll=true,operator=false,started=false,position=0,step=0,winner=false) {
-        this.name = name;
-        this.number = number;
-        this.roll = roll;
-        this.operator = operator;
-        this.started = started;
-        this.position = position;
-        this.step = step;
-        this.winner = winner;
-    }
-
-    let roll_die = {first_die:null,second_die:null};
-    let user = new User(1,1,true);
-    let computer = new User(2,2,false);
-
-
-
+    //check prime number
     function prime(num) {
         let number = Number(num);
         let res = 1;
@@ -79,6 +59,22 @@ $(document).ready(function () {
         return true;
     }
 
+
+    //class User
+	function User(name='no name',number=1,roll=true,operator=false,started=false,position=0,step=0,winner=false) {
+        this.name = name;
+        this.number = number;
+        this.roll = roll;
+        this.operator = operator;
+        this.started = started;
+        this.position = position;
+        this.step = step;
+        this.winner = winner;
+    }
+
+    let roll_die = {first_die:null,second_die:null};
+    let user = new User(1,1,true);
+    let computer = new User(2,2,true);
 
     $('#roll').on('click',function () {
         if(user.roll === true && user.operator === false){
@@ -158,20 +154,19 @@ $(document).ready(function () {
             $('#msg > span').removeClass('-dis-n').text('blue win!');
             $('#start_player_1').removeClass('empty').addClass('filled');
         }
-
-
-        if(computer.winner===true){
-            user.roll = false;
-            user.operator = false;
-            computer.roll = false;
-            computer.operator = false;
-            computer.started = false;
-            $('#msg').removeClass('no_winner').addClass('winner_msg_2');
-            $('#msg > i').addClass('-dis-n');
-            $('#msg > span').removeClass('-dis-n').text('red win!');
-            $('#start_player_2').removeClass('empty').addClass('filled');
-        }
     });
 
+    function computer_move() {
+        if(computer.roll === true && computer.operator === false){
+            roll_dice();
+            computer.roll = false;
+            computer.operator = true;
+        }
+        if(computer.roll === false && computer.operator === true){
+
+        }
+    }
+
+    setTimeout(computer_move,1000);
 
 });
