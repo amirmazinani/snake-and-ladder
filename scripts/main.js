@@ -38,8 +38,8 @@ $(document).ready(function () {
     }
 
     //set 100 houses
-    for (var i = 1; i <= 10; i++) {
-		for (var j = 1; j <= 10; j++){
+    for (let i = 1; i <= 10; i++) {
+		for (let j = 1; j <= 10; j++){
 			$('#board').append('<div class="-pos-r sqr b-gray -t-al-c"><span>' + (10 * i - 10 + j) + '</span><span class="pawn -pos-a -top-0 -left-0 -w-11 h-100d"></span></div>');
 		} 
 	}
@@ -64,12 +64,12 @@ $(document).ready(function () {
 
 
     function prime(num) {
-        var number = Number(num);
-        var res = 1;
+        let number = Number(num);
+        let res = 1;
         if(number===1){
             return false;
         }
-        for (var i = 2; i <= number - 1; i++) {
+        for (let i = 2; i <= number - 1; i++) {
             if (number % i == 0) {
                 res++;
                 if (res > 1) return false;
@@ -79,8 +79,9 @@ $(document).ready(function () {
         return true;
     }
 
+
     $('#roll').on('click',function () {
-        if(user.name === 1 && user.roll === true && user.operator === false){
+        if(user.roll === true && user.operator === false){
             roll_dice();
             if(user.started === false){
                 user.started = true;
@@ -97,8 +98,6 @@ $(document).ready(function () {
     $('.operator').on('click',function () {
         if(user.name === 1 && user.roll === false && user.operator === true){
             let result = 0;
-
-
             if($(this).is("#sum")){
                 result = roll_die.first_die + roll_die.second_die;
             }else if($(this).is("#subtract")){
@@ -145,13 +144,7 @@ $(document).ready(function () {
             user.step++;
             computer.roll = true;
             computer.operator = false;
-
-            console.log(user);
 		}
-
-
-
-
 
         //find winner
         if(user.winner===true){
@@ -165,6 +158,8 @@ $(document).ready(function () {
             $('#msg > span').removeClass('-dis-n').text('blue win!');
             $('#start_player_1').removeClass('empty').addClass('filled');
         }
+
+
         if(computer.winner===true){
             user.roll = false;
             user.operator = false;
