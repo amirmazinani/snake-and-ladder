@@ -74,7 +74,7 @@ $(document).ready(function () {
 
     let roll_die = {first_die:null,second_die:null};
     let user = new User(1,1,true);
-    let computer = new User(2,2,true);
+    let computer = new User(2,2,true,false,false,10);
 
     $('#roll').on('click',function () {
         if(user.roll === true && user.operator === false){
@@ -157,15 +157,65 @@ $(document).ready(function () {
     });
 
     function computer_move() {
+        let comResult = {
+            sum:null,
+            sub:null,
+            multi:null,
+            div:null,
+        };
+        let comPos = {
+            sum:null,
+            sub:null,
+            multi:null,
+            div:null,
+        };
         if(computer.roll === true && computer.operator === false){
             roll_dice();
             computer.roll = false;
             computer.operator = true;
         }
         if(computer.roll === false && computer.operator === true){
+            if(roll_die.second_die===0){
+                comResult.sum = roll_die.first_die;
+                comPos.sum = comResult.sum+computer.position;
 
+                comResult.sub = roll_die.first_die;
+                comPos.sub = comResult.sub+computer.position;
+
+                comResult.multi = 0;
+                comPos.multi = computer.position;
+            }
+            else if(roll_die.second_die!==0){
+                comResult.sum = Number(Math.floor(roll_die.first_die + roll_die.second_die));
+                comPos.sum = comResult.sum + computer.position;
+
+                comResult.sub = Number(Math.floor(roll_die.first_die - roll_die.second_die));
+                comPos.sub = comResult.sub + computer.position;
+
+                comResult.multi = Number(Math.floor(roll_die.first_die * roll_die.second_die));
+                comPos.multi = comResult.multi + computer.position;
+
+                comResult.div = Number(Math.floor(roll_die.first_die / roll_die.second_die));
+                comPos.div = comResult.div + computer.position;
+            }
         }
+        for (let i in comPos){
+            if(comPos[i] <= 0 || comPos[i] >= 101 || prime(comPos[i])){
+                comPos[i] = null;
+            }else if((comPos[i] > 0 || comPos[i] < 101) && !prime(comPos[i])){
+                if(comPos[i] < user.position){
+//olaviat zadan karbar bad bishtarin khane
+                }else if(comPos[i] > user.position){
+//olaviat bishtarin khane
+                }
+            }
+            console.log(i+' : '+comResult[i]);
+            console.log(i+' : '+comPos[i]);
+        }
+
     }
+
+
 
     setTimeout(computer_move,1000);
 
