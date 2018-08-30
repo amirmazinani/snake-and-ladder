@@ -1,5 +1,4 @@
 $(document).ready(function () {
-
     //view
     $('#description > main > nav > ul > li').on('click',function () {
         let lang = $(this).data('language');
@@ -34,14 +33,6 @@ $(document).ready(function () {
         roll_die[id] = next;
         elem.text(roll_die[id]);
     }
-
-    //set 100 houses
-    for (let i = 1; i <= 10; i++) {
-		for (let j = 1; j <= 10; j++){
-			$('#board').append('<div class="-pos-r sqr b-gray -t-al-c"><span>' + (10 * i - 10 + j) + '</span><span class="pawn -pos-a -top-0 -left-0 -w-11 h-100d"></span></div>');
-		} 
-	}
-
     //check prime number
     function prime(num) {
         let number = Number(num);
@@ -50,7 +41,7 @@ $(document).ready(function () {
             return false;
         }
         for (let i = 2; i <= number - 1; i++) {
-            if (number % i == 0) {
+            if (number % i === 0) {
                 res++;
                 if (res > 1) return false;
                 break;
@@ -58,7 +49,7 @@ $(document).ready(function () {
         }
         return true;
     }
-
+    //find winner
     function findWinner() {
         if(user.winner===true){
             user.roll = false;
@@ -77,16 +68,14 @@ $(document).ready(function () {
             user.roll = false;
             user.operator = false;
             user.started = false;
-            $('#msg').removeClass('no_winner').addClass('winner_msg_1');
+            $('#msg').removeClass('no_winner').addClass('winner_msg_2');
             $('#msg > i').addClass('-dis-n');
-            $('#msg > span').removeClass('-dis-n').text('blue win!');
-            $('#start_player_1').removeClass('empty').addClass('filled');
+            $('#msg > span').removeClass('-dis-n').text('red win!');
+            $('#start_player_2').removeClass('empty').addClass('filled');
         }
     }
-
-
     //class User
-	function User(name='no name',number=1,roll=true,operator=false,started=false,position=0,step=0,winner=false) {
+    function User(name='no name',number=1,roll=true,operator=false,started=false,position=0,step=0,winner=false) {
         this.name = name;
         this.number = number;
         this.roll = roll;
@@ -96,6 +85,18 @@ $(document).ready(function () {
         this.step = step;
         this.winner = winner;
     }
+
+
+
+    //set 100 houses
+    for (let i = 1; i <= 10; i++) {
+		for (let j = 1; j <= 10; j++){
+			$('#board').append('<div class="-pos-r sqr b-gray -t-al-c"><span>' + (10 * i - 10 + j) + '</span><span class="pawn -pos-a -top-0 -left-0 -w-11 h-100d"></span></div>');
+		} 
+	}
+
+
+
 
     let roll_die = {first_die:null,second_die:null};
     let user = new User(1,1,true);
@@ -175,7 +176,7 @@ $(document).ready(function () {
             setTimeout(computer_move,1000);
 		}
     });
-
+    //-----------------------computer move
     function computer_move() {
         let comResult = {
             sum:null,
@@ -201,12 +202,15 @@ $(document).ready(function () {
             if(roll_die.second_die===0){
                 comResult.sum = roll_die.first_die;
                 comPos.sum = comResult.sum+computer.position;
+                comPos.sum = (comPos.sum <= 0 || comPos.sum >= 101 || prime(comPos.sum))? null : comPos.sum;
 
                 comResult.sub = roll_die.first_die;
                 comPos.sub = comResult.sub+computer.position;
+                comPos.sub = (comPos.sub <= 0 || comPos.sub >= 101 || prime(comPos.sub))? null : comPos.sub;
 
                 comResult.multi = 0;
                 comPos.multi = computer.position;
+                comPos.multi = (comPos.multi <= 0 || comPos.multi >= 101 || prime(comPos.multi))? null : comPos.multi;
             }
             else if(roll_die.second_die!==0){
                 comResult.sum = Number(Math.floor(roll_die.first_die + roll_die.second_die));
@@ -232,7 +236,6 @@ $(document).ready(function () {
                         $('.player_2').removeClass('player_2');
                         $('#board > div:nth-child('+computer.position+') > .pawn').addClass('player_2');
                         $('#start_player_2').removeClass('filled').addClass('empty').find('span').text(computer.position);
-
                         user.position = 0;
                         $('#start_player_1 > span').text('');
                         $('#start_player_1').removeClass('empty').addClass('filled').find('span').text('');
@@ -244,6 +247,8 @@ $(document).ready(function () {
                 $('#board > div:nth-child('+computer.position+') > .pawn').addClass('player_2');
                 $('#start_player_2').removeClass('filled').addClass('empty').find('span').text(computer.position);
                 if(comPos.sum===comPos.sub===comPos.multi===comPos.div===null){
+                    console.log(1);
+                    computer.position = 0;
                     $('#start_player_2').removeClass('empty').addClass('filled').find('span').text('');
                     $('.player_2').removeClass('player_2');
                 }
@@ -253,7 +258,8 @@ $(document).ready(function () {
                 $('#board > div:nth-child('+computer.position+') > .pawn').addClass('player_2');
                 $('#start_player_2').removeClass('filled').addClass('empty').find('span').text(computer.position);
                 if(comPos.sum===comPos.sub===comPos.multi===comPos.div===null){
-                    computer    .position = 0;
+                    console.log('2');
+                    computer.position = 0;
                     $('#start_player_2').removeClass('empty').addClass('filled').find('span').text('');
                     $('.player_2').removeClass('player_2');
                 }
@@ -262,12 +268,13 @@ $(document).ready(function () {
 
         if(computer.position===100)computer.winner=true;
         $('#msg > i').toggleClass('-fnt-icon-left -fnt-icon-right');
-        findWinner();
         computer.roll = false;
         computer.operator = false;
         computer.step++;
         user.roll = true;
         user.operator = false;
+        findWinner();
+        console.table(comPos);
         console.table(computer);
     }
 
