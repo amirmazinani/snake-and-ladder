@@ -226,7 +226,6 @@ $(document).ready(function () {
                         }
                     }
                     if(comPos.sum===null && comPos.sub=== null && comPos.multi=== null && comPos.div===null){
-                        console.log(1);
                         go_to_house(computer);
                     }else{
                         computer.position = Math.max(comPos.sum,comPos.sub,comPos.multi,comPos.div);
@@ -235,7 +234,6 @@ $(document).ready(function () {
                 }
                 else if(computer.position > user.position || computer.position === 0){
                     if(comPos.sum===null && comPos.sub=== null && comPos.multi=== null && comPos.div===null){
-                        console.log(2);
                         go_to_house(computer);
                     }else{
                         computer.position = Math.max(comPos.sum,comPos.sub,comPos.multi,comPos.div);
@@ -267,7 +265,6 @@ $(document).ready(function () {
                         }
                     }
                     if(comPos.sum===null && comPos.sub=== null && comPos.multi=== null && comPos.div===null){
-                        console.log(3);
                         go_to_house(computer);
                     }else{
                         computer.position = Math.max(comPos.sum,comPos.sub,comPos.multi,comPos.div);
@@ -276,7 +273,6 @@ $(document).ready(function () {
                 }
                 else if(computer.position > user.position || computer.position === 0){
                     if(comPos.sum===null && comPos.sub=== null && comPos.multi=== null && comPos.div===null){
-                        console.log(4);
                         go_to_house(computer);
                     }else{
                         computer.position = Math.max(comPos.sum,comPos.sub,comPos.multi,comPos.div);
@@ -294,10 +290,6 @@ $(document).ready(function () {
         user.roll = true;
         user.operator = false;
         findWinner();
-        console.log(user);
-        console.log(comPos);
-        console.log(computer);
-        console.log('========================');
     }
 
 });
