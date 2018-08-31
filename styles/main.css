@@ -1,7 +1,6 @@
 @font-face {
 	font-family: "behdad";
 	src:
-			url("/fonts/behdad/font.otf?#") format("otf"),
 			url("/fonts/behdad/font.woff") format("woff"),
 			url("/fonts/behdad/font.woff2") format("woff2"),
 			url("/fonts/behdad/font.ttf") format("truetype");

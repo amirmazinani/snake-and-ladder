@@ -1,6 +1,8 @@
 @font-face {
     font-family: "fontello";
-    src: url('/fonts/fontello/font.eot#iefix') format('embedded-opentype'), url('/fonts/fontello/font.woff') format('woff'), url('/fonts/fontello/font.ttf') format('truetype'), url('/fonts/fontello/font.svg#fontello') format('svg');
+    src: url('/fonts/fontello/font.eot#iefix') format('embedded-opentype'),
+    url('/fonts/fontello/font.woff') format('woff'),
+    url('/fonts/fontello/font.ttf') format('truetype');
 }
 .-fnt-icon-emo-happy:before {
     content: '\e800'
