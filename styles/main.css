@@ -34,6 +34,7 @@ button{
 	--green:#2ECC71;
 }
 body{font-family: sans-serif}
+.-fnt-s-p{font-size: 12pt}
 .fnt-montserrat-m{font-family: 'montserrat-m' , sans-serif;}
 .fnt-montserrat-b{font-family: 'montserrat-b' , sans-serif;}
 .fnt-behdad{font-family: 'behdad' , sans-serif;}
@@ -46,6 +47,7 @@ body{font-family: sans-serif}
 .b-blue{background: var(--blue)}
 .c-red{color: var(--red)}
 .b-red{background: var(--red)}
+.c-green{color: var(--green)}
 .b-green-hover:hover{background: var(--green)}
 .sqr{height:50px;width:50px;line-height:50px;}
 .li-h-50px{line-height: 50px}
