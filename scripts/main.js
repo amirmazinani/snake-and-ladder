@@ -231,7 +231,7 @@ $(document).ready(function () {
             }
             if(computer.position < user.position){
                 for (let i in comPos){
-                    if(comPos[i] === user.position ){
+                    if(comPos[i] === user.position && comPos[i] !== 0 ){
                         computer.position = comPos[i];
                         $('.player_2').removeClass('player_2');
                         $('#board > div:nth-child('+computer.position+') > .pawn').addClass('player_2');
@@ -247,12 +247,12 @@ $(document).ready(function () {
                 $('#board > div:nth-child('+computer.position+') > .pawn').addClass('player_2');
                 $('#start_player_2').removeClass('filled').addClass('empty').find('span').text(computer.position);
                 if(comPos.sum===comPos.sub===comPos.multi===comPos.div===null){
-                    console.log(1);
+                    console.log('1');
                     computer.position = 0;
                     $('#start_player_2').removeClass('empty').addClass('filled').find('span').text('');
                     $('.player_2').removeClass('player_2');
                 }
-            }else if(computer.position >= user.position){
+            }else if(computer.position > user.position || computer.position === 0){
                 computer.position = Math.max(comPos.sum,comPos.sub,comPos.multi,comPos.div);
                 $('.player_2').removeClass('player_2');
                 $('#board > div:nth-child('+computer.position+') > .pawn').addClass('player_2');
