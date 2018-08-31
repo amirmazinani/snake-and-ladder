@@ -75,8 +75,8 @@ $(document).ready(function () {
         }
     }
     //class User
-    function User(name='no name',number=1,roll=true,operator=false,started=false,position=0,step=0,winner=false) {
-        this.name = name;
+    function User(code='no code',number=1,roll=true,operator=false,started=false,position=0,step=0,winner=false) {
+        this.code = code;
         this.number = number;
         this.roll = roll;
         this.operator = operator;
@@ -85,23 +85,17 @@ $(document).ready(function () {
         this.step = step;
         this.winner = winner;
     }
-
-
-
     //set 100 houses
     for (let i = 1; i <= 10; i++) {
 		for (let j = 1; j <= 10; j++){
 			$('#board').append('<div class="-pos-r sqr b-gray -t-al-c"><span>' + (10 * i - 10 + j) + '</span><span class="pawn -pos-a -top-0 -left-0 -w-11 h-100d"></span></div>');
 		} 
 	}
-
-
-
-
+	//objects
     let roll_die = {first_die:null,second_die:null};
     let user = new User(1,1,true);
     let computer = new User(2,2,false);
-
+    //user roll
     $('#roll').on('click',function () {
         if(user.roll === true && user.operator === false){
             roll_dice();
@@ -117,67 +111,77 @@ $(document).ready(function () {
         }
     });
 
+    function move(obj){
+        $('.player_'+obj.code).removeClass('player_'+obj.code);
+        $('#board > div:nth-child('+obj.position+') > .pawn').addClass('player_'+obj.code);
+        $('#start_player_'+obj.code).removeClass('filled').addClass('empty').find('span').text(obj.position);
+    }
+    function roll_empty(a){
+        roll_die.first_die = roll_die.second_die = null;
+        if(a===1){
+            $('#first_die.dice > span').text('?');
+            $('#second_die.dice > span').text('?');
+        }
+    }
+    function go_to_house(obj){
+        obj.position = 0;
+        $('#start_player_'+obj.code+' > span').text('');
+        $('#start_player_'+obj.code).removeClass('empty').addClass('filled').find('span').text('');
+        $('.player_'+obj.code).removeClass('player_'+obj.code);
+    }
+
     $('.operator').on('click',function () {
         if(user.roll === false && user.operator === true){
+            //calculate result and user.position
             let result = 0;
             if($(this).is("#sum")){
                 result = roll_die.first_die + roll_die.second_die;
-            }else if($(this).is("#subtract")){
+            }
+            else if($(this).is("#subtract")){
                 result = roll_die.first_die - roll_die.second_die;
-            }else if($(this).is("#multiply")){
+            }
+            else if($(this).is("#multiply")){
                 result = roll_die.first_die * roll_die.second_die;
-            }else if($(this).is("#divide")){
+            }
+            else if($(this).is("#divide")){
                 result = roll_die.first_die / roll_die.second_die;
                 if(roll_die.second_die === 0)result=1000;
             }
-
             result = Number(Math.floor(result));
             user.position = result + user.position;
             if(user.position===100)user.winner=true;
-
+            //move conditions
             if(result === 1000 || user.position <= 0 || user.position >= 101 || prime(user.position)){
-                user.position = 0;
-                $('#start_player_1').removeClass('empty').addClass('filled').find('span').text('');
-                roll_die.first_die = roll_die.second_die = null;
-                $('#first_die.dice > span').text('?');
-                $('#second_die.dice > span').text('?');
-                $('.player_1').removeClass('player_1');
-            }else if(user.position === computer.position){
-                computer.position = 0;
-                $('#start_player_2 > span').text('');
-                $('#start_player_2').removeClass('empty').addClass('filled').find('span').text('');
-                $('.player_2').removeClass('player_2');
-                roll_die.first_die = roll_die.second_die = null;
-                $('#first_die.dice > span').text('?');
-                $('#second_die.dice > span').text('?');
-                $('.player_1').removeClass('player_1');
-                $('#board > div:nth-child('+user.position+') > .pawn').addClass('player_1');
-                $('#start_player_1').removeClass('filled').addClass('empty').find('span').text(user.position);
-			}else if((user.position > 0 || user.position < 101) && !prime(user.position)){
-                $('.player_1').removeClass('player_1');
-                $('#board > div:nth-child('+user.position+') > .pawn').addClass('player_1');
-                $('#start_player_1').removeClass('filled').addClass('empty').find('span').text(user.position);
-                roll_die.first_die = roll_die.second_die = null;
-                $('#first_die.dice > span').text('?');
-                $('#second_die.dice > span').text('?');
+                go_to_house(user);
+                roll_empty(1);
+            }
+            else if(user.position === computer.position){
+                go_to_house(computer);
+                roll_empty(1);
+                move(user);
+			}
+			else if((user.position > 0 || user.position < 101) && !prime(user.position)){
+                move(user);
+                roll_empty(1);
 			}
 
+			//view toggling
             $('#roll').removeClass('-dis-n');
             $('.operator').addClass('-dis-n');
             $('#msg > i').toggleClass('-fnt-icon-left -fnt-icon-right');
-
+            //change setting for opponent move
             user.roll = false;
             user.operator = false;
             user.step++;
             computer.roll = true;
             computer.operator = false;
-            console.table(user);
             findWinner();
             setTimeout(computer_move,1000);
 		}
     });
-    //-----------------------computer move
+    //computer move
     function computer_move() {
+        //raw objects
         let comResult = {
             sum:null,
             sub:null,
@@ -190,6 +194,7 @@ $(document).ready(function () {
             multi:null,
             div:null,
         };
+        //computer roll
         if(computer.roll === true && computer.operator === false){
             if(computer.started === false){
                 computer.started = true;
@@ -199,69 +204,84 @@ $(document).ready(function () {
             computer.operator = true;
         }
         if(computer.roll === false && computer.operator === true){
+
             if(roll_die.second_die===0){
                 comResult.sum = roll_die.first_die;
                 comPos.sum = comResult.sum+computer.position;
                 comPos.sum = (comPos.sum <= 0 || comPos.sum >= 101 || prime(comPos.sum))? null : comPos.sum;
-
                 comResult.sub = roll_die.first_die;
                 comPos.sub = comResult.sub+computer.position;
                 comPos.sub = (comPos.sub <= 0 || comPos.sub >= 101 || prime(comPos.sub))? null : comPos.sub;
-
                 comResult.multi = 0;
                 comPos.multi = computer.position;
                 comPos.multi = (comPos.multi <= 0 || comPos.multi >= 101 || prime(comPos.multi))? null : comPos.multi;
+
+
+                if(computer.position < user.position){
+                    for (let i in comPos){
+                        if(comPos[i] === user.position && comPos[i] !== 0 ){
+                            computer.position = comPos[i];
+                            move(computer);
+                            go_to_house(user);
+                        }
+                    }
+                    if(comPos.sum===null && comPos.sub=== null && comPos.multi=== null && comPos.div===null){
+                        console.log(1);
+                        go_to_house(computer);
+                    }else{
+                        computer.position = Math.max(comPos.sum,comPos.sub,comPos.multi,comPos.div);
+                        move(computer);
+                    }
+                }
+                else if(computer.position > user.position || computer.position === 0){
+                    if(comPos.sum===null && comPos.sub=== null && comPos.multi=== null && comPos.div===null){
+                        console.log(2);
+                        go_to_house(computer);
+                    }else{
+                        computer.position = Math.max(comPos.sum,comPos.sub,comPos.multi,comPos.div);
+                        move(computer);
+                    }
+                }
             }
-            else if(roll_die.second_die!==0){
+            else if(roll_die.second_die > 0){
                 comResult.sum = Number(Math.floor(roll_die.first_die + roll_die.second_die));
                 comPos.sum = comResult.sum + computer.position;
                 comPos.sum = (comPos.sum <= 0 || comPos.sum >= 101 || prime(comPos.sum))? null : comPos.sum;
-
                 comResult.sub = Number(Math.floor(roll_die.first_die - roll_die.second_die));
                 comPos.sub = comResult.sub + computer.position;
                 comPos.sub = (comPos.sub <= 0 || comPos.sub >= 101 || prime(comPos.sub))? null : comPos.sub;
-
                 comResult.multi = Number(Math.floor(roll_die.first_die * roll_die.second_die));
                 comPos.multi =  comResult.multi + computer.position;
                 comPos.multi = (comPos.multi <= 0 || comPos.multi >= 101 || prime(comPos.multi))? null : comPos.multi;
-
                 comResult.div = Number(Math.floor(roll_die.first_die / roll_die.second_die));
                 comPos.div = comResult.div + computer.position;
                 comPos.div = (comPos.div <= 0 || comPos.div >= 101 || prime(comPos.div))? null : comPos.div;
-            }
-            if(computer.position < user.position){
-                for (let i in comPos){
-                    if(comPos[i] === user.position && comPos[i] !== 0 ){
-                        computer.position = comPos[i];
-                        $('.player_2').removeClass('player_2');
-                        $('#board > div:nth-child('+computer.position+') > .pawn').addClass('player_2');
-                        $('#start_player_2').removeClass('filled').addClass('empty').find('span').text(computer.position);
-                        user.position = 0;
-                        $('#start_player_1 > span').text('');
-                        $('#start_player_1').removeClass('empty').addClass('filled').find('span').text('');
-                        $('.player_1').removeClass('player_1');
+
+
+                if(computer.position < user.position){
+                    for (let i in comPos){
+                        if(comPos[i] === user.position && comPos[i] !== 0 ){
+                            computer.position = comPos[i];
+                            move(computer);
+                            go_to_house(user);
+                        }
+                    }
+                    if(comPos.sum===null && comPos.sub=== null && comPos.multi=== null && comPos.div===null){
+                        console.log(3);
+                        go_to_house(computer);
+                    }else{
+                        computer.position = Math.max(comPos.sum,comPos.sub,comPos.multi,comPos.div);
+                        move(computer);
                     }
                 }
-                computer.position = Math.max(comPos.sum,comPos.sub,comPos.multi,comPos.div);
-                $('.player_2').removeClass('player_2');
-                $('#board > div:nth-child('+computer.position+') > .pawn').addClass('player_2');
-                $('#start_player_2').removeClass('filled').addClass('empty').find('span').text(computer.position);
-                if(comPos.sum===comPos.sub===comPos.multi===comPos.div===null){
-                    console.log('1');
-                    computer.position = 0;
-                    $('#start_player_2').removeClass('empty').addClass('filled').find('span').text('');
-                    $('.player_2').removeClass('player_2');
-                }
-            }else if(computer.position > user.position || computer.position === 0){
-                computer.position = Math.max(comPos.sum,comPos.sub,comPos.multi,comPos.div);
-                $('.player_2').removeClass('player_2');
-                $('#board > div:nth-child('+computer.position+') > .pawn').addClass('player_2');
-                $('#start_player_2').removeClass('filled').addClass('empty').find('span').text(computer.position);
-                if(comPos.sum===comPos.sub===comPos.multi===comPos.div===null){
-                    console.log('2');
-                    computer.position = 0;
-                    $('#start_player_2').removeClass('empty').addClass('filled').find('span').text('');
-                    $('.player_2').removeClass('player_2');
+                else if(computer.position > user.position || computer.position === 0){
+                    if(comPos.sum===null && comPos.sub=== null && comPos.multi=== null && comPos.div===null){
+                        console.log(4);
+                        go_to_house(computer);
+                    }else{
+                        computer.position = Math.max(comPos.sum,comPos.sub,comPos.multi,comPos.div);
+                        move(computer);
+                    }
                 }
             }
         }
@@ -274,8 +294,10 @@ $(document).ready(function () {
         user.roll = true;
         user.operator = false;
         findWinner();
-        console.table(comPos);
-        console.table(computer);
+        console.log(user);
+        console.log(comPos);
+        console.log(computer);
+        console.log('========================');
     }
 
 });
