@@ -38,6 +38,7 @@ $(document).ready(function () {
     let roll_die = {first_die:null,second_die:null};
     let user = new User(1,1,true);
     let computer = new User(2,2,false);
+
     //roll
     function roll_dice() {
         roll_single_die("first_die");
@@ -116,7 +117,8 @@ $(document).ready(function () {
     //user roll
     $('#roll').on('click',function () {
         if(user.roll === true && user.operator === false){
-            roll_dice();
+             roll_dice();
+
             if(user.started === false){
                 user.started = true;
                 $('#msg > span').addClass('-dis-n');
@@ -155,9 +157,9 @@ $(document).ready(function () {
                 roll_empty(1);
             }
             else if(user.position === computer.position){
+                move(user);
                 go_to_house(computer);
                 roll_empty(1);
-                move(user);
 			}
 			else if((user.position > 0 || user.position < 101) && !prime(user.position)){
                 move(user);
@@ -165,6 +167,7 @@ $(document).ready(function () {
 			}
 
 			//view toggling
+
             $('#roll').removeClass('-dis-n');
             $('.operator').addClass('-dis-n');
             $('#msg > i').toggleClass('-fnt-icon-left -fnt-icon-right');
@@ -199,6 +202,7 @@ $(document).ready(function () {
                 computer.started = true;
             }
             roll_dice();
+
             computer.roll = false;
             computer.operator = true;
         }
@@ -223,12 +227,14 @@ $(document).ready(function () {
                             move(computer);
                             go_to_house(user);
                         }
-                    }
-                    if(comPos.sum===null && comPos.sub=== null && comPos.multi=== null && comPos.div===null){
-                        go_to_house(computer);
-                    }else{
-                        computer.position = Math.max(comPos.sum,comPos.sub,comPos.multi,comPos.div);
-                        move(computer);
+                        else if(comPos.sum===null && comPos.sub=== null && comPos.multi=== null && comPos.div===null){
+                            go_to_house(computer);
+                        }
+                        else if(comPos[i] !== user.position){
+                            computer.position = Math.max(comPos.sum,comPos.sub,comPos.multi,comPos.div);
+                            move(computer);
+                        }
+                        break;
                     }
                 }
                 else if(computer.position > user.position || computer.position === 0){
@@ -262,12 +268,14 @@ $(document).ready(function () {
                             move(computer);
                             go_to_house(user);
                         }
-                    }
-                    if(comPos.sum===null && comPos.sub=== null && comPos.multi=== null && comPos.div===null){
-                        go_to_house(computer);
-                    }else{
-                        computer.position = Math.max(comPos.sum,comPos.sub,comPos.multi,comPos.div);
-                        move(computer);
+                        else if(comPos.sum===null && comPos.sub=== null && comPos.multi=== null && comPos.div===null){
+                            go_to_house(computer);
+                        }
+                        else if(comPos[i] !== user.position){
+                            computer.position = Math.max(comPos.sum,comPos.sub,comPos.multi,comPos.div);
+                            move(computer);
+                        }
+                        break;
                     }
                 }
                 else if(computer.position > user.position || computer.position === 0){
@@ -280,7 +288,6 @@ $(document).ready(function () {
                 }
             }
         }
-
         if(computer.position===100)computer.winner=true;
         $('#msg > i').toggleClass('-fnt-icon-left -fnt-icon-right');
         computer.roll = false;
