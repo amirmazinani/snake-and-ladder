@@ -18,7 +18,7 @@ $(document).ready(function () {
 
     });
     //class User
-    function User(code='no code',number=1,roll=true,operator=false,started=false,position=0,step=0,winner=false) {
+    function User(code='no code',number=1,roll=false,operator=false,started=false,position=0,step=0,winner=false) {
         this.code = code;
         this.number = number;
         this.roll = roll;
@@ -34,6 +34,19 @@ $(document).ready(function () {
             $('#board').append('<div class="-pos-r sqr b-gray -t-al-c"><span>' + (10 * i - 10 + j) + '</span><span class="pawn -pos-a -top-0 -left-0 -w-11 h-100d"></span></div>');
         }
     }
+    //raw objects
+    let comResult = {
+        sum:null,
+        sub:null,
+        multi:null,
+        div:null,
+    };
+    let comPos = {
+        sum:null,
+        sub:null,
+        multi:null,
+        div:null,
+    };
     //objects
     let roll_die = {first_die:null,second_die:null};
     let user = new User(1,1,true);
@@ -183,19 +196,6 @@ $(document).ready(function () {
     });
     //computer move
     function computer_move() {
-        //raw objects
-        let comResult = {
-            sum:null,
-            sub:null,
-            multi:null,
-            div:null,
-        };
-        let comPos = {
-            sum:null,
-            sub:null,
-            multi:null,
-            div:null,
-        };
         //computer roll
         if(computer.roll === true && computer.operator === false){
             if(computer.started === false){
@@ -297,5 +297,28 @@ $(document).ready(function () {
         user.operator = false;
         findWinner();
     }
+
+    //reset
+    $('.reset').on('click',function () {
+        user.position = computer.position = user.step = computer.step = 0;
+        user.operator = computer.operator = computer.roll = user.winner = computer.winner = user.started = computer.started = false;
+        user.roll = true;
+        roll_die.first_die = roll_die.second_die = null;
+        $('#first_die.dice > span').text('?');
+        $('#second_die.dice > span').text('?');
+        $('#msg').addClass('no_winner').removeClass('winner_msg_1').removeClass('winner_msg_2');
+        $('#msg > i').addClass('-dis-n');
+        $('#msg > span').removeClass('-dis-n').text('Hi');
+        $('#start_player_1 > span').text('');
+        $('#start_player_2 > span').text('');
+        $('#start_player_1').removeClass('empty').addClass('filled').find('span').text('');
+        $('#start_player_2').removeClass('empty').addClass('filled').find('span').text('');
+        $('.player_1').removeClass('player_1');
+        $('.player_2').removeClass('player_2');
+        $('#roll').removeClass('-dis-n');
+        $('.operator').addClass('-dis-n');
+        for (let i in comPos){comPos[i] = null;}
+        for (let i in comResult){comPos[i] = null;}
+    });
 
 });
