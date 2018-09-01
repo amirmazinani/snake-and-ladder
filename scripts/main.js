@@ -17,7 +17,27 @@ $(document).ready(function () {
         }
 
     });
-
+    //class User
+    function User(code='no code',number=1,roll=true,operator=false,started=false,position=0,step=0,winner=false) {
+        this.code = code;
+        this.number = number;
+        this.roll = roll;
+        this.operator = operator;
+        this.started = started;
+        this.position = position;
+        this.step = step;
+        this.winner = winner;
+    }
+    //set 100 houses
+    for (let i = 1; i <= 10; i++) {
+        for (let j = 1; j <= 10; j++){
+            $('#board').append('<div class="-pos-r sqr b-gray -t-al-c"><span>' + (10 * i - 10 + j) + '</span><span class="pawn -pos-a -top-0 -left-0 -w-11 h-100d"></span></div>');
+        }
+    }
+    //objects
+    let roll_die = {first_die:null,second_die:null};
+    let user = new User(1,1,true);
+    let computer = new User(2,2,false);
     //roll
     function roll_dice() {
         roll_single_die("first_die");
@@ -49,6 +69,24 @@ $(document).ready(function () {
         }
         return true;
     }
+    function move(obj){
+        $('.player_'+obj.code).removeClass('player_'+obj.code);
+        $('#board > div:nth-child('+obj.position+') > .pawn').addClass('player_'+obj.code);
+        $('#start_player_'+obj.code).removeClass('filled').addClass('empty').find('span').text(obj.position);
+    }
+    function roll_empty(a){
+        roll_die.first_die = roll_die.second_die = null;
+        if(a===1){
+            $('#first_die.dice > span').text('?');
+            $('#second_die.dice > span').text('?');
+        }
+    }
+    function go_to_house(obj){
+        obj.position = 0;
+        $('#start_player_'+obj.code+' > span').text('');
+        $('#start_player_'+obj.code).removeClass('empty').addClass('filled').find('span').text('');
+        $('.player_'+obj.code).removeClass('player_'+obj.code);
+    }
     //find winner
     function findWinner() {
         if(user.winner===true){
@@ -74,27 +112,7 @@ $(document).ready(function () {
             $('#start_player_2').removeClass('empty').addClass('filled');
         }
     }
-    //class User
-    function User(code='no code',number=1,roll=true,operator=false,started=false,position=0,step=0,winner=false) {
-        this.code = code;
-        this.number = number;
-        this.roll = roll;
-        this.operator = operator;
-        this.started = started;
-        this.position = position;
-        this.step = step;
-        this.winner = winner;
-    }
-    //set 100 houses
-    for (let i = 1; i <= 10; i++) {
-		for (let j = 1; j <= 10; j++){
-			$('#board').append('<div class="-pos-r sqr b-gray -t-al-c"><span>' + (10 * i - 10 + j) + '</span><span class="pawn -pos-a -top-0 -left-0 -w-11 h-100d"></span></div>');
-		} 
-	}
-	//objects
-    let roll_die = {first_die:null,second_die:null};
-    let user = new User(1,1,true);
-    let computer = new User(2,2,false);
+
     //user roll
     $('#roll').on('click',function () {
         if(user.roll === true && user.operator === false){
@@ -110,25 +128,6 @@ $(document).ready(function () {
             user.operator = true;
         }
     });
-
-    function move(obj){
-        $('.player_'+obj.code).removeClass('player_'+obj.code);
-        $('#board > div:nth-child('+obj.position+') > .pawn').addClass('player_'+obj.code);
-        $('#start_player_'+obj.code).removeClass('filled').addClass('empty').find('span').text(obj.position);
-    }
-    function roll_empty(a){
-        roll_die.first_die = roll_die.second_die = null;
-        if(a===1){
-            $('#first_die.dice > span').text('?');
-            $('#second_die.dice > span').text('?');
-        }
-    }
-    function go_to_house(obj){
-        obj.position = 0;
-        $('#start_player_'+obj.code+' > span').text('');
-        $('#start_player_'+obj.code).removeClass('empty').addClass('filled').find('span').text('');
-        $('.player_'+obj.code).removeClass('player_'+obj.code);
-    }
 
     $('.operator').on('click',function () {
         if(user.roll === false && user.operator === true){
