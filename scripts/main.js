@@ -52,6 +52,7 @@ $(document).ready(function () {
     let user = new User(1,1,true);
     let computer = new User(2,2,false);
 
+
     //roll
     function roll_dice() {
         roll_single_die("first_die");
@@ -130,7 +131,7 @@ $(document).ready(function () {
     //user roll
     $('#roll').on('click',function () {
         if(user.roll === true && user.operator === false){
-             roll_dice();
+            roll_dice();
 
             if(user.started === false){
                 user.started = true;
@@ -220,24 +221,28 @@ $(document).ready(function () {
                 comPos.multi = (comPos.multi <= 0 || comPos.multi >= 101 || prime(comPos.multi))? null : comPos.multi;
 
 
-                if(computer.position < user.position){
+                if(computer.position < user.position || computer.position === 0){
                     for (let i in comPos){
                         if(comPos[i] === user.position && comPos[i] !== 0 ){
                             computer.position = comPos[i];
                             move(computer);
                             go_to_house(user);
+                            break;
+                        }else if(comPos[i] !== user.position && comPos[i] !== 0){
+
+                            if (comPos.sum === null && comPos.sub === null && comPos.multi === null && comPos.div === null) {
+                                go_to_house(computer);
+                                break;
+                            }
+                            else if (comPos[i] !== user.position && comPos[i] !== null) {
+                                computer.position = Math.max(comPos.sum, comPos.sub, comPos.multi, comPos.div);
+                                move(computer);
+                                break;
+                            }
                         }
-                        else if(comPos.sum===null && comPos.sub=== null && comPos.multi=== null && comPos.div===null){
-                            go_to_house(computer);
-                        }
-                        else if(comPos[i] !== user.position){
-                            computer.position = Math.max(comPos.sum,comPos.sub,comPos.multi,comPos.div);
-                            move(computer);
-                        }
-                        break;
                     }
                 }
-                else if(computer.position > user.position || computer.position === 0){
+                else if(computer.position > user.position || computer.position !== 0){
                     if(comPos.sum===null && comPos.sub=== null && comPos.multi=== null && comPos.div===null){
                         go_to_house(computer);
                     }else{
@@ -261,24 +266,28 @@ $(document).ready(function () {
                 comPos.div = (comPos.div <= 0 || comPos.div >= 101 || prime(comPos.div))? null : comPos.div;
 
 
-                if(computer.position < user.position){
+                if(computer.position < user.position || computer.position === 0){
                     for (let i in comPos){
                         if(comPos[i] === user.position && comPos[i] !== 0 ){
                             computer.position = comPos[i];
                             move(computer);
                             go_to_house(user);
+                            break;
+                        }else if(comPos[i] !== user.position && comPos[i] !== 0){
+
+                            if (comPos.sum === null && comPos.sub === null && comPos.multi === null && comPos.div === null) {
+                                go_to_house(computer);
+                                break;
+                            }
+                            else if (comPos[i] !== user.position && comPos[i] !== null) {
+                                computer.position = Math.max(comPos.sum, comPos.sub, comPos.multi, comPos.div);
+                                move(computer);
+                                break;
+                            }
                         }
-                        else if(comPos.sum===null && comPos.sub=== null && comPos.multi=== null && comPos.div===null){
-                            go_to_house(computer);
-                        }
-                        else if(comPos[i] !== user.position){
-                            computer.position = Math.max(comPos.sum,comPos.sub,comPos.multi,comPos.div);
-                            move(computer);
-                        }
-                        break;
                     }
                 }
-                else if(computer.position > user.position || computer.position === 0){
+                else if(computer.position > user.position || computer.position !== 0){
                     if(comPos.sum===null && comPos.sub=== null && comPos.multi=== null && comPos.div===null){
                         go_to_house(computer);
                     }else{
